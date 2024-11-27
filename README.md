@@ -1,5 +1,5 @@
 # mqttrwr
-mqtt rewrite is a server written in python to connect to a mqtt broker to rewrite mqtt topics in case you connect you mqtt broker where you do not control the structure of topics. 
+mqtt rewrite is a server written in python to connect to a mqtt broker to rewrite mqtt topics in case you connect to a 3rd mqtt broker where you do not control the structure of topics (e.g. The Things Network). 
 
 # Installation:
 1. Download config.yaml and mqtt_rewrite.py
