@@ -1,0 +1,13 @@
+mqtt:
+  broker: "<HOSTNAME>"
+  port: 1883
+  username: "username"
+  password: "password"
+topics:
+  - sub_topic: "original/topicwithwildcard/#"
+    pub_topic: "targettopic/2ndlevel"
+  - sub_topic: "original/topicwithwildcard/#"
+    pub_topic: "targettopic/2ndlevel"
+  - sub_topic: "original2"
+    pub_topic: "targettopic2/"
+
