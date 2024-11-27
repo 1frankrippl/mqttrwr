@@ -10,7 +10,7 @@ If you like **mqttrwr** give it a star or fork it:
 
 # Installation:
 ## Python prerequisites
-If not already done, install Python 3.x environment with Pip, Paho MQTT a
+If not already done, install Python 3.x environment with pip and paho MQTT.
 ```bash
 sudo apt install python3 python3-pip python3-paho-mqtt
 ```
