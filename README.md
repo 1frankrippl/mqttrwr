@@ -19,8 +19,22 @@ sudo apt install python3 python3-pip python3-paho-mqtt
 1. Download config.yaml and mqtt_rewrite.py
 2. Place both files into one folder
 3. Configure the server in config.yaml
-4. For testing you can start the service with
+```yaml
+  mqtt:
+  broker: "<HOSTNAME>"
+  port: 1883
+  username: "username"
+  password: "password"
+topics:
+  - sub_topic: "original/topicwithwildcard/#"
+    pub_topic: "targettopic/2ndlevel"
+  - sub_topic: "original/topicwithwildcard/#"
+    pub_topic: "targettopic/2ndlevel"
+  - sub_topic: "original2"
+    pub_topic: "targettopic2/"
 ```
+5. For testing you can start the service with
+```bash
 python mqtt_rewrite.py
 ```
 # Setting up mqttrwr service 
