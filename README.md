@@ -4,7 +4,7 @@ mqtt rewrite is a server written in python to connect to a mqtt broker to rewrit
 [![master](https://img.shields.io/badge/master-v3.0.2-blue.svg)](https://github.com/1frankrippl/mqttrwr/tree/master)
 [![License](https://img.shields.io/github/license/mqttrwr/mqttrwr.svg)](LICENSE)
 
-If you like **mqtt2sql** give it a star or fork it:
+If you like **mqttrwr** give it a star or fork it:
 
 [![GitHub stars](https://img.shields.io/github/stars/1frankrippl/mqttrwr.svg?style=social&label=Star)](https://github.com/1frankrippl/mqttrwr/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/1frankrippl/mqttrwr.svg?style=social&label=Fork)](https://github.com/1frankrippl/mqttrwr/network)
