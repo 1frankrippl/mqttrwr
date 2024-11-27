@@ -1,8 +1,13 @@
-# mqttrwr
-mqtt rewrite is a server written in python to connect to a mqtt broker to rewrite mqtt topics in case you connect to a 3rd mqtt broker where you do not control the structure of topics (e.g. The Things Network). 
+# mqttrwr Server
+mqtt rewrite is a server written in python to connect to a mqtt broker to rewrite mqtt topics. This is needed in the case you are connecting to a 3rd mqtt broker where you do not control the structure of topics (e.g. The Things Network). This server can be used to rewrite the topics in a structure you need. 
 
+[![master](https://img.shields.io/badge/master-v3.0.2-blue.svg)](https://github.com/1frankrippl/mqttrwr/tree/master)
+[![License](https://img.shields.io/github/license/mqttrwr/mqttrwr.svg)](LICENSE)
 
+If you like **mqtt2sql** give it a star or fork it:
 
+[![GitHub stars](https://img.shields.io/github/stars/curzon01/mqtt2sql.svg?style=social&label=Star)](https://github.com/1frankrippl/mqttrwr/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/curzon01/mqtt2sql.svg?style=social&label=Fork)](https://github.com/1frankrippl/mqttrwr/network)
 
 # Installation:
 ## Python prerequisites
@@ -19,11 +24,10 @@ sudo apt install python3 python3-pip python3-paho-mqtt
 ```
 python mqtt_rewrite.py
 ```
-# Setting up service 
+# Setting up mqttrwr service 
 
 On Linux you can run mqtt rewrite as a server 
 
-1. Create Service 
 ```bash
 sudo vi /etc/systemd/system/mqttrwr.service
 ```
