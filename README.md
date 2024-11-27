@@ -2,7 +2,6 @@
 mqtt rewrite is a server written in python to connect to a mqtt broker to rewrite mqtt topics. This is needed in the case you are connecting to a 3rd mqtt broker where you do not control the structure of topics (e.g. The Things Network). This server can be used to rewrite the topics in a structure you need. 
 
 [![master](https://img.shields.io/badge/master-v3.0.2-blue.svg)](https://github.com/1frankrippl/mqttrwr/tree/master)
-[![License](https://img.shields.io/github/license/mqttrwr/mqttrwr.svg)](LICENSE)
 
 If you like **mqttrwr** give it a star or fork it:
 
