@@ -47,7 +47,7 @@ sudo vi /etc/systemd/system/mqttrwr.service
 ```
 Contents:
 [Unit]
-Description=MQTT Server Script
+Description=MQTTrwr Server Script
 After=network.target
 
 [Service]
