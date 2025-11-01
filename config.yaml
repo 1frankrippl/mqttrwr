@@ -6,8 +6,13 @@ mqtt:
 topics:
   - sub_topic: "original/topicwithwildcard/#"
     pub_topic: "targettopic/2ndlevel"
+    parser:
+      type: "json"
+      key: "temperature"
   - sub_topic: "original/topicwithwildcard/#"
     pub_topic: "targettopic/2ndlevel"
+    parser:
+      type: "regex"
+      pattern: "status=(\\w+)"
   - sub_topic: "original2"
-    pub_topic: "targettopic2/"
-
+    pub_topic: "targettopic2/"    
