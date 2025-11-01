@@ -1,45 +1,63 @@
-import yaml
 import paho.mqtt.client as mqtt
+import yaml
 import json
 import re
+import sys
+from parsers import get_parser
 
-with open("config.yaml", "r") as f:
-    config = yaml.safe_load(f)
+with open("config.yaml", "r") as ymlfile:
+    cfg = yaml.safe_load(ymlfile)
 
-client = mqtt.Client()
+mqtt_in_cfg = cfg["mqtt_in"]
+mqtt_out_cfg = cfg["mqtt_out"]
+rewrite_rules = cfg["rewrite_rules"]
 
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
-    for topic in config["topics"]:
-        client.subscribe(topic["sub_topic"])
-
-def parse_payload(payload, parser_config):
-    if parser_config["type"] == "json":
-        try:
-            data = json.loads(payload)
-            return data.get(parser_config["key"], None)
-        except json.JSONDecodeError:
-            return None
-    elif parser_config["type"] == "regex":
-        match = re.search(parser_config["pattern"], payload)
-        return match.group(1) if match else None
-    else:
-        return payload  # fallback: no parsing
+    print(f"[MQTT] Verbunden mit Code {rc}")
+    for rule in rewrite_rules:
+        print(f"[MQTT] Abonniere: {rule['from']}")
+        client.subscribe(rule["from"])
 
 def on_message(client, userdata, msg):
-    for topic_cfg in config["topics"]:
-        if mqtt.topic_matches_sub(topic_cfg["sub_topic"], msg.topic):
-            payload = msg.payload.decode("utf-8")
-            parser = topic_cfg.get("parser")
-            if parser:
-                parsed_value = parse_payload(payload, parser)
-                if parsed_value is not None:
-                    client.publish(topic_cfg["pub_topic"], str(parsed_value))
-            else:
-                client.publish(topic_cfg["pub_topic"], payload)
+    topic = msg.topic
+    payload = msg.payload.decode("utf-8")
+    print(f"[MQTT] Empfangen: {topic} → {payload}")
 
-client.on_connect = on_connect
-client.on_message = on_message
+    for rule in rewrite_rules:
+        pattern = "^" + re.sub(r"\+", "([^/]+)", rule["from"]) + "$"
+        match = re.match(pattern, topic)
+        if match:
+            groups = match.groups()
+            new_topic = rule["to"]
+            for g in groups:
+                new_topic = new_topic.replace("+", g, 1)
 
-client.connect(config["broker"]["host"], config["broker"]["port"], 60)
-client.loop_forever()
+            parser_name = rule.get("parser")
+            if parser_name:
+                try:
+                    json_payload = json.loads(payload)
+                    parser_func = get_parser(parser_name)
+                    parsed = parser_func(json_payload)
+                    payload = json.dumps(parsed)
+                except Exception as e:
+                    print(f"[Parser:{parser_name}] Fehler: {e}")
+
+            print(f"[MQTT] Weiterleiten: {new_topic} → {payload}")
+            mqtt_out.publish(new_topic, payload)
+            break
+
+mqtt_in = mqtt.Client()
+mqtt_in.username_pw_set(mqtt_in_cfg["username"], mqtt_in_cfg["password"])
+mqtt_in.on_connect = on_connect
+mqtt_in.on_message = on_message
+mqtt_in.connect(mqtt_in_cfg["host"], mqtt_in_cfg["port"], 60)
+
+mqtt_out = mqtt.Client()
+mqtt_out.username_pw_set(mqtt_out_cfg["username"], mqtt_out_cfg["password"])
+mqtt_out.connect(mqtt_out_cfg["host"], mqtt_out_cfg["port"], 60)
+
+try:
+    mqtt_in.loop_forever()
+except KeyboardInterrupt:
+    print("\n[MQTT] Beende...")
+    sys.exit(0)
