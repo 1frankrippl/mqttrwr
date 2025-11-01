@@ -1,18 +1,19 @@
-mqtt:
-  broker: "<HOSTNAME>"
+mqtt_in:
+  host: "localhost"
   port: 1883
-  username: "username"
-  password: "password"
-topics:
-  - sub_topic: "original/topicwithwildcard/#"
-    pub_topic: "targettopic/2ndlevel"
-    parser:
-      type: "json"
-      key: "temperature"
-  - sub_topic: "original/topicwithwildcard/#"
-    pub_topic: "targettopic/2ndlevel"
-    parser:
-      type: "regex"
-      pattern: "status=(\\w+)"
-  - sub_topic: "original2"
-    pub_topic: "targettopic2/"    
+  username: "user"
+  password: "pass"
+
+mqtt_out:
+  host: "localhost"
+  port: 1883
+  username: "user"
+  password: "pass"
+
+rewrite_rules:
+  - from: "topic/devices/+/up"
+    to: "strom/+/wh"
+    parser: "wh_parser"
+  - from: "topic/devices/+/up"
+    to: "strom/+/battery"
+    parser: "battery_parser"
